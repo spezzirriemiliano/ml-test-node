@@ -9,6 +9,7 @@ export default class ItemsService {
           const searchUrl = `${this.ML_API_URL}/sites/MLA/search`;
           const response = await axios.get(searchUrl, {
             params: {
+              limit: 4,
               q: query
             }});
           return response.data;
