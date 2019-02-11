@@ -24,7 +24,7 @@ export default class ItemsService {
             const itemDescriptionPromise = axios.get(`${this.ML_API_URL}/items/${id}/description`);
             const [item, itemDescription] = await Promise.all([itemPromise, itemDescriptionPromise]);
             return { item: item.data, itemDescription: itemDescription.data};
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         }
 

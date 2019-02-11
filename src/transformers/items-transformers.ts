@@ -5,6 +5,6 @@ export default class ItemsTransformers {
     }
 
     public static itemTransformer(item: any, description: any) {
-        return {item, description}
+        return {item, description};
     }
 }

@@ -14,7 +14,9 @@
   "author": "Emiliano Spezzirri",
   "license": "ISC",
   "dependencies": {
+    "@types/cors": "^2.8.4",
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4"
   },
   "devDependencies": {
