@@ -10,6 +10,7 @@ export interface IAuthor {
 }
 
 export interface IItem {
+    address: string;
     id: string;
     title: string;
     price: IItemPrice;

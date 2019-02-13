@@ -8,13 +8,33 @@ export default class ItemsTransformers {
                 lastname: "Spezzirri",
                 name: "Emiliano"
             },
-            categories: [],
-            items: []
+            categories: ItemsTransformers.transformCategories(response.filters),
+            items: ItemsTransformers.transforItems(response.results)
         };
+        return itemsResult;
+    }
 
-        for (const result of response.results) {
+    public static itemTransformer(item: any, description: any) {
+        return {item, description};
+    }
+
+    private static transformCategories(filters: any) {
+        const categoryFilter = filters.find((c: any) => c.id === "category");
+        if (categoryFilter && categoryFilter.values && categoryFilter.values[0]) {
+            return categoryFilter.values[0].path_from_root.map((c: any) => {
+                return c.name;
+            });
+        } else {
+            return [];
+        }
+    }
+
+    private static transforItems(results: any) {
+        const items = [];
+        for (const result of results) {
             const price = result.price.toString().split(".");
             const includeItem: IItem = {
+                address: result.address.state_name,
                 condition: result.condition,
                 free_shipping: result.shipping.free_shipping,
                 id: result.id,
@@ -26,13 +46,8 @@ export default class ItemsTransformers {
                 },
                 title: result.title,
             };
-            itemsResult.items.push(includeItem);
+            items.push(includeItem);
         }
-
-        return itemsResult;
-    }
-
-    public static itemTransformer(item: any, description: any) {
-        return {item, description};
+        return items;
     }
 }
