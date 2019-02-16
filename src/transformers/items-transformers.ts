@@ -1,21 +1,49 @@
-import { IItem, IItemResult } from "../interfaces/interfaces";
+import { IAuthor, IItem, IItemDetail, IItemDetailResult, IItemPrice, IItemResult } from "../interfaces/interfaces";
 
 export default class ItemsTransformers {
 
-    public static searchTransformer(response: any) {
-        const itemsResult: IItemResult = {
-            author: {
-                lastname: "Spezzirri",
-                name: "Emiliano"
-            },
+    public static searchTransformer(response: any): IItemResult {
+        return {
+            author: ItemsTransformers.getAuthor(),
             categories: ItemsTransformers.transformCategories(response.filters),
             items: ItemsTransformers.transforItems(response.results)
         };
-        return itemsResult;
     }
 
-    public static itemTransformer(item: any, description: any) {
-        return {item, description};
+    public static itemTransformer(item: any, description: any): IItemDetailResult {
+        return {
+            author: ItemsTransformers.getAuthor(),
+            item: ItemsTransformers.transformItemDetail(item, description)
+        };
+    }
+
+    private static transformItemDetail(item: any, description: any): IItemDetail {
+        return {
+            condition: item.condition,
+            description: description.plain_text || "",
+            free_shipping: item.shipping.free_shipping,
+            id: item.id,
+            picture: item.pictures && item.pictures[0] ? item.pictures[0].url : item.thumbnail,
+            price: ItemsTransformers.getPrice(item),
+            sold_quantity: item.sold_quantity,
+            title: item.title,
+        };
+    }
+
+    private static getAuthor(): IAuthor {
+        return {
+            lastname: "Spezzirri",
+            name: "Emiliano"
+        };
+    }
+
+    private static getPrice(item: any): IItemPrice {
+        const price = item.price.toString().split(".");
+        return {
+            amount: price[0] ? price[0] : 0,
+            currency: item.currency_id,
+            decimals: price[1] ? price[1] : 0
+        };
     }
 
     private static transformCategories(filters: any) {
@@ -30,23 +58,17 @@ export default class ItemsTransformers {
     }
 
     private static transforItems(results: any) {
-        const items = [];
+        const items: IItem[] = [];
         for (const result of results) {
-            const price = result.price.toString().split(".");
-            const includeItem: IItem = {
+            items.push({
                 address: result.address.state_name,
                 condition: result.condition,
                 free_shipping: result.shipping.free_shipping,
                 id: result.id,
                 picture: result.thumbnail,
-                price: {
-                    amount: price[0] ? price[0] : 0,
-                    currency: result.currency_id,
-                    decimals: price[1] ? price[1] : 0
-                },
+                price: ItemsTransformers.getPrice(result),
                 title: result.title,
-            };
-            items.push(includeItem);
+            });
         }
         return items;
     }

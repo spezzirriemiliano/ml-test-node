@@ -10,7 +10,7 @@ export interface IAuthor {
 }
 
 export interface IItem {
-    address: string;
+    address?: string;
     id: string;
     title: string;
     price: IItemPrice;
@@ -23,4 +23,14 @@ export interface IItemPrice {
     currency: string;
     amount: number;
     decimals: number;
+}
+
+export interface IItemDetail extends IItem {
+    sold_quantity: number;
+    description: string;
+}
+
+export interface IItemDetailResult {
+    author: IAuthor;
+    item: IItemDetail;
 }
