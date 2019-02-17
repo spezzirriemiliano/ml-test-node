@@ -19,6 +19,7 @@ export default class ItemsTransformers {
 
     private static transformItemDetail(item: any, description: any): IItemDetail {
         return {
+            category_id: item.category_id,
             condition: item.condition,
             description: description.plain_text || "",
             free_shipping: item.shipping.free_shipping,

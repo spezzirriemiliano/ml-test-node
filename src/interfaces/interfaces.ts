@@ -26,8 +26,9 @@ export interface IItemPrice {
 }
 
 export interface IItemDetail extends IItem {
-    sold_quantity: number;
+    category_id: string;
     description: string;
+    sold_quantity: number;
 }
 
 export interface IItemDetailResult {
