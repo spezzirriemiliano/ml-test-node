@@ -22,7 +22,9 @@ export default class ItemsService {
     public static async getItem(id: string) {
         try {
             const itemPromise = axios.get(`${this.ML_API_URL}/items/${id}`);
-            const itemDescriptionPromise = axios.get(`${this.ML_API_URL}/items/${id}/description`);
+            const itemDescriptionPromise = axios.get(`${this.ML_API_URL}/items/${id}/description`).catch(() => {
+              return {data: {description: {plain_text: ""}}};
+            });
             const [item, itemDescription] = await Promise.all([itemPromise, itemDescriptionPromise]);
             return { item: item.data, itemDescription: itemDescription.data};
         } catch (error) {
