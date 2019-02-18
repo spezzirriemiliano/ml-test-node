@@ -15,7 +15,7 @@ export default class ItemsService {
           return response.data;
         } catch (error) {
           console.error(error);
-          return {};
+          throw {status: error.response.status, message: error.response.data.message};
         }
       }
 
@@ -26,7 +26,8 @@ export default class ItemsService {
             const [item, itemDescription] = await Promise.all([itemPromise, itemDescriptionPromise]);
             return { item: item.data, itemDescription: itemDescription.data};
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            throw {status: error.response.status, message: error.response.data.message};
         }
 
     }

@@ -8,8 +8,8 @@ export default class CategoryController {
       const response = await CategoryService.getCategories(req.params.id);
       return res.json(CategoryTransformers.transform(response));
     } catch (error) {
-      console.log(error);
+        console.log(error);
+        return res.status(500).json({error});
     }
   }
-
 }

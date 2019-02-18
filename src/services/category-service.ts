@@ -11,7 +11,7 @@ export default class CategoryService {
           return response.data;
         } catch (error) {
           console.error(error);
-          return {};
+          throw {status: error.response.status, message: error.response.data.message};
         }
       }
 

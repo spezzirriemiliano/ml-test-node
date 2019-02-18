@@ -9,6 +9,7 @@ export default class ItemController {
       return res.json(ItemsTransformer.searchTransformer(search));
     } catch (error) {
       console.log(error);
+      return res.status(500).json({error});
     }
   }
 
@@ -18,6 +19,7 @@ export default class ItemController {
       return res.json(ItemsTransformer.itemTransformer(item, itemDescription));
     } catch (error) {
       console.log(error);
+      return res.status(500).json({error});
     }
   }
 
